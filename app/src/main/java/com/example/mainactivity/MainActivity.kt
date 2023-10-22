@@ -125,7 +125,7 @@ fun TampilText(cobaViewModel: CobaViewModel = viewModel()){
                 cobaViewModel.setJenisK(it)
             })
         Button(modifier = Modifier.fillMaxWidth(),
-            onClick = {cobaViewModel.BacaData(textForm,phoneForm,dataForm.sex)
+            onClick = {cobaViewModel.BacaData(textForm,phoneForm,alamatForm,dataForm.sex)
         }
         ) {
             Text(text = stringResource(R.string.submit),

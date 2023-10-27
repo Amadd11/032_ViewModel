@@ -94,6 +94,7 @@ fun TampilText(cobaViewModel: CobaViewModel = viewModel()){
     var textForm by remember { mutableStateOf("")}
     var phoneForm by remember { mutableStateOf("")}
     var alamatForm by remember { mutableStateOf("")}
+    var emailForm by remember { mutableStateOf("")}
 
     val  context = LocalContext.current
     val dataForm: DataForm
@@ -107,7 +108,7 @@ fun TampilText(cobaViewModel: CobaViewModel = viewModel()){
         fontWeight = FontWeight.Bold,
         fontSize = 20.sp)
 
-        OutlinedTextField(
+    OutlinedTextField(
             value = textForm,
             onValueChange = {textForm = it},
             singleLine = true,
@@ -117,7 +118,7 @@ fun TampilText(cobaViewModel: CobaViewModel = viewModel()){
                 .padding(10.dp)
                 .fillMaxWidth()
             )
-        OutlinedTextField(
+    OutlinedTextField(
             value = phoneForm,
             onValueChange = {phoneForm = it},
             singleLine = true,
@@ -127,6 +128,21 @@ fun TampilText(cobaViewModel: CobaViewModel = viewModel()){
                 .padding(10.dp)
                 .fillMaxWidth()
         )
+    OutlinedTextField(
+        value = emailForm,
+        onValueChange = {emailForm = it},
+        singleLine = true,
+        shape = MaterialTheme.shapes.large,
+        label = { Text(text = "Email")},
+        modifier = Modifier
+            .padding(10.dp)
+            .fillMaxWidth()
+    )
+
+        SelectJK(options = jenis.map { id -> context.resources.getString(id) },
+            onSelectedChanged = {
+                cobaViewModel.setJenisK(it)
+            })
     OutlinedTextField(
         value = alamatForm,
         onValueChange = {alamatForm = it},
@@ -138,12 +154,8 @@ fun TampilText(cobaViewModel: CobaViewModel = viewModel()){
             .fillMaxWidth()
     )
 
-        SelectJK(options = jenis.map { id -> context.resources.getString(id) },
-            onSelectedChanged = {
-                cobaViewModel.setJenisK(it)
-            })
         Button(modifier = Modifier.fillMaxWidth(),
-            onClick = {cobaViewModel.BacaData(textForm,phoneForm,alamatForm,dataForm.sex)
+            onClick = {cobaViewModel.BacaData(textForm,phoneForm,alamatForm,emailForm,dataForm.sex)
         }
         ) {
             Text(text = stringResource(R.string.submit),
@@ -191,7 +203,7 @@ fun SelectJK(
 
     var selectedValue by rememberSaveable { mutableStateOf("")
     }
-    Column (modifier = Modifier.padding(16.dp),
+    Row (modifier = Modifier.padding(16.dp),
         ) {
         options.forEach { item ->
             Row (
@@ -201,7 +213,8 @@ fun SelectJK(
                         selectedValue = item
                         onSelectedChanged(item)
                     }
-                )
+                ),
+                verticalAlignment = Alignment.CenterVertically
         ){
                 RadioButton(
                     selected = selectedValue == item,

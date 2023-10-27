@@ -1,8 +1,10 @@
 package com.example.mainactivity
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -31,8 +33,11 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -59,9 +64,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun TampilLayout(
-    modifier: Modifier = Modifier
-){
+fun TampilLayout() {
     Card (modifier = Modifier,
         elevation = CardDefaults.cardElevation(defaultElevation = 5.dp)){
         Column(
@@ -71,10 +74,19 @@ fun TampilLayout(
                 .padding(20.dp)
                 .fillMaxSize(),
             ) {
+            Row {
+                Image(
+                    painter = painterResource(id = R.drawable.back),
+                    contentDescription =" ",)
+                Text(
+                text = "Register",
+                fontWeight = FontWeight.Bold)
+            }
             TampilText()
         }
     }
 }
+@SuppressLint("SuspiciousIndentation")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TampilText(cobaViewModel: CobaViewModel = viewModel()){
@@ -88,12 +100,19 @@ fun TampilText(cobaViewModel: CobaViewModel = viewModel()){
     val uiState by cobaViewModel.uiState.collectAsState()
     dataForm = uiState
 
+
+    Text(
+        text = "Create Your Account",
+        color = Color.Black,
+        fontWeight = FontWeight.Bold,
+        fontSize = 20.sp)
+
         OutlinedTextField(
             value = textForm,
             onValueChange = {textForm = it},
             singleLine = true,
             shape = MaterialTheme.shapes.large,
-            label = { Text(text = "Nama Lengkap")},
+            label = { Text(text = "User Name")},
             modifier = Modifier
                 .padding(10.dp)
                 .fillMaxWidth()
@@ -103,7 +122,7 @@ fun TampilText(cobaViewModel: CobaViewModel = viewModel()){
             onValueChange = {phoneForm = it},
             singleLine = true,
             shape = MaterialTheme.shapes.large,
-            label = { Text(text = "Nomor Telepon")},
+            label = { Text(text = "Telepon")},
             modifier = Modifier
                 .padding(10.dp)
                 .fillMaxWidth()
@@ -131,7 +150,7 @@ fun TampilText(cobaViewModel: CobaViewModel = viewModel()){
                 fontSize = 16.sp)
 
         }
-        Spacer(modifier = Modifier.height(150.dp))
+        Spacer(modifier = Modifier.height(70.dp))
         TextHasil(
             namanya = cobaViewModel.namaUsr,
             telponnya =cobaViewModel.noTlp ,
@@ -172,7 +191,8 @@ fun SelectJK(
 
     var selectedValue by rememberSaveable { mutableStateOf("")
     }
-    Column (modifier = Modifier.padding(16.dp)) {
+    Column (modifier = Modifier.padding(16.dp),
+        ) {
         options.forEach { item ->
             Row (
                 modifier = Modifier.selectable(
@@ -181,8 +201,7 @@ fun SelectJK(
                         selectedValue = item
                         onSelectedChanged(item)
                     }
-                ),
-                verticalAlignment = Alignment.CenterVertically
+                )
         ){
                 RadioButton(
                     selected = selectedValue == item,
